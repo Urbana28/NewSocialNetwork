@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
+import {useRoute} from "./hooks/useRoute";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const route = useRoute();
+
+    return (
+        <div className="App">
+            <Header/>
+            <div className='App__navCont'>
+                <NavBar/>
+                <div className='App__navCont-components'>
+                    {route}
+                </div>
+            </div>
+
+
+        </div>
+    );
 }
 
 export default App;
