@@ -22,7 +22,7 @@ let Users: React.FC<IProps> = ({users, totalCount, count, currentPage,
     return (
         <div className='users'>
             <div>
-              <Pagination totalCount={totalCount} count={count} currentPage={currentPage} onPageChange={onPageChange}/>
+              <Pagination  totalCount={totalCount} count={count} currentPage={currentPage} onPageChange={onPageChange}/>
             </div>
             {users.map(u => <User isFollowingInProgress={isFollowingInProgress} beFriend={beFriend} stopFriend={stopFriend}
                                   totalCount={totalCount} count={count} currentPage={currentPage}

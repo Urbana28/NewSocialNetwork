@@ -5,7 +5,6 @@ import {
     befriendUser,
     getUsers,
     onPageChanged,
-    setIsFollowingInProgress,
     stopFriendUser
 } from "../store/reducers/friendsReducer";
 import {AppStateType} from "../store/store";
@@ -41,8 +40,9 @@ let UsersContainer = () => {
     return (
         <div>
             {isFetching && <Preloader/>}
-            <Users isFollowingInProgress={isFollowingInProgress} onPageChange={onPageChange} beFriend={beFriend} stopFriend={stopFriend}
-                    users={users} totalCount={totalCount} count={count} currentPage={currentPage}/>
+            <Users isFollowingInProgress={isFollowingInProgress} onPageChange={onPageChange}
+                   beFriend={beFriend} stopFriend={stopFriend} users={users}
+                   totalCount={totalCount} count={count} currentPage={currentPage}/>
         </div>
     )
 }

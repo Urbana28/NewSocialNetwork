@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.scss';
-import Header from './components/Header';
 import NavBar from './components/NavBar';
 import {useRoute} from "./hooks/useRoute";
+import HeaderContainer from "./components/HeaderContainer";
 
 function App() {
 
@@ -10,7 +10,7 @@ function App() {
 
     return (
         <div className="App">
-            <Header/>
+            <HeaderContainer/>
             <div className='App__navCont'>
                 <NavBar/>
                 <div className='App__navCont-components'>

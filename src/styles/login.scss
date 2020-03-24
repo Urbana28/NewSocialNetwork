@@ -1,0 +1,58 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+
+  &__input {
+    margin-bottom: 5px;
+    height: 30px;
+    width: 270px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    border: none;
+    background: rgba(213, 227, 227, .5);
+    outline: none;
+    transition: .3s;
+    padding-left: 3px;
+
+    &:focus {
+      background: none;
+      border-bottom: 2px solid rgba(16, 56, 176, 1);
+      transition: .3s;
+      outline: none;
+    }
+
+    &:active {
+      outline: none;
+    }
+  }
+
+  &__errors {
+    color: red;
+
+    &:focus {
+      border: 2px solid red;
+    }
+  }
+
+  &__btn {
+    margin-top: 5px;
+    height: 30px;
+    width: 70px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    transition: .3s;
+
+    &:hover {
+      background: rgba(16, 56, 176, .6);
+      cursor: pointer;
+      transition: .3s;
+    }
+
+  }
+}
