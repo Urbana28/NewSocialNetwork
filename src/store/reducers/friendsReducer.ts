@@ -144,7 +144,6 @@ export let getUsers = (currentPage:number, count:number) => {
                 dispatch(setIsFetching(false))
                 dispatch(setUsers(res.data.items));
                 dispatch(setTotalUsersCount(res.data.totalCount))
-                console.log(res)
             })
 
     }

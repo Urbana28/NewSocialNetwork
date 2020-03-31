@@ -6,7 +6,7 @@ import {loginAPI} from "../../api/loginAPI";
 
 
 export const SET_AUTH_USER = 'SET_AUTH_USER';
-
+export const GET_CAPTCHA_URL_SUCCESS = 'GET_CAPTCHA_URL_SUCCESS';
 
 interface IInitialState {
     id: number | null,
@@ -14,7 +14,8 @@ interface IInitialState {
     email: string,
     isAuth: boolean,
     password: string,
-    rememberMe: boolean
+    rememberMe: boolean,
+    captchaUrl: string
 }
 
 const initialState:IInitialState = {
@@ -23,7 +24,8 @@ const initialState:IInitialState = {
     email: '',
     isAuth: false,
     password: '',
-    rememberMe: false
+    rememberMe: false,
+    captchaUrl: ''
 }
 
 export let loginReducer = (state = initialState, action:LoginCommonActionType) => {
@@ -33,6 +35,11 @@ export let loginReducer = (state = initialState, action:LoginCommonActionType) =
                 ...state,
                 ...action.data
             };
+        case GET_CAPTCHA_URL_SUCCESS:
+            return {
+                ...state,
+                captchaUrl: action.captchaUrl
+            }
         default: return state
     }
 }
@@ -42,10 +49,15 @@ export const setAuthUser = (id: number | null,login: string,email:string, isAuth
         type: SET_AUTH_USER, data: {id,login,email, isAuth}
     }
 };
+const setCaptchaUrl = (captchaUrl: string) => {
+    return {
+        type: GET_CAPTCHA_URL_SUCCESS, captchaUrl
+    }
+}
 
 export let getAuthUser = () => {
     return (dispatch:Dispatch<LoginCommonActionType>, getState: () => AppStateType) => {
-        loginAPI.getAuthUser()
+       return loginAPI.getAuthUser()
             .then((res) => {
                 if(res.data.resultCode === 0) {
                     let {id,login,email} = res.data.data;
@@ -56,21 +68,42 @@ export let getAuthUser = () => {
 };
 
 /*type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, LoginCommonActionType>*/
+const getCaptchaUrl = () => {
+    return async (dispatch: any) => {
+        try {
+            let res = await loginAPI.getCaptchaUrl();
+            let captchaUrl = res.data.url;
+            dispatch(setCaptchaUrl(captchaUrl))
 
-export let login = (email:string, password:string, rememberMe:boolean) => {
+
+        } catch (e) {
+            console.log(e)
+
+        }
+
+    }
+}
+
+export let login = (email:string, password:string, rememberMe:boolean, captchaUrl: string) => {
     return (dispatch:any, getState: () => AppStateType) => {
-        loginAPI.login(email, password, rememberMe)
+        loginAPI.login(email, password, rememberMe, captchaUrl)
             .then((res) => {
                 if(res.data.resultCode === 0) {
                     dispatch(getAuthUser())
+                } else if (res.data.resultCode === 10) {
+                    dispatch(getCaptchaUrl())
+                } else if (res.data.resultCode === 1) {
+
                 }
+
             })
     }
 }
 
+
 export let logout = () => {
     return (dispatch:Dispatch<LoginCommonActionType>, getState: () => AppStateType) => {
-        loginAPI.logout()
+         loginAPI.logout()
             .then((res) => {
                 if(res.data.resultCode === 0) {
                     dispatch(setAuthUser(null, '', '', false))

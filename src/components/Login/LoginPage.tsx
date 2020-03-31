@@ -5,13 +5,14 @@ import { Redirect } from 'react-router-dom';
 
 interface IProps {
     isAuth: boolean,
-    loginUser: (email:string, password:string, rememberMe:boolean) => void
+    loginUser: (email:string, password:string, rememberMe:boolean, captchaUrl: string) => void,
+    captchaUrl: string
 }
 
-let LoginPage:React.FC<IProps> = ({isAuth, loginUser}) => {
+let LoginPage:React.FC<IProps> = ({isAuth, loginUser, captchaUrl}) => {
     return(
         <div>
-            {isAuth ?  <Redirect to='/profilePage'/> : <LoginForm loginUser={loginUser}/>}
+            {isAuth ?  <Redirect to='/profilePage'/> : <LoginForm captchaUrl={captchaUrl} loginUser={loginUser}/>}
         </div>
     )
 }

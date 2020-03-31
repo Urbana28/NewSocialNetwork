@@ -1,4 +1,4 @@
-import {SET_AUTH_USER} from "../store/reducers/LoginReducer";
+import {GET_CAPTCHA_URL_SUCCESS, SET_AUTH_USER} from "../store/reducers/LoginReducer";
 
 interface IData {
     id: number | null,
@@ -11,6 +11,11 @@ export interface ISetAuthUserAction  {
     data :IData
 }
 
+export interface IGetCaptchaUrl {
+    type: typeof GET_CAPTCHA_URL_SUCCESS,
+    captchaUrl: string
+}
 
 
-export type LoginCommonActionType = ISetAuthUserAction
+
+export type LoginCommonActionType = ISetAuthUserAction | IGetCaptchaUrl

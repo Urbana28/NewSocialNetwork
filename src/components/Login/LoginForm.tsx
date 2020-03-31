@@ -3,13 +3,14 @@ import {useForm} from "react-hook-form";
 import '../../styles/login.scss';
 
 interface IProps {
-    loginUser: (email:string, password:string, rememberMe:boolean) => void
+    loginUser: (email: string, password: string, rememberMe: boolean, captchaUrl: string) => void,
+    captchaUrl: string
 }
 
-const LoginForm:React.FC<IProps> = ({loginUser}) => {
+const LoginForm: React.FC<IProps> = ({loginUser, captchaUrl}) => {
     const {handleSubmit, register, errors} = useForm();
     const onSubmit = (values: any) => {
-       loginUser(values.email, values.password, values.rememberMe)
+        loginUser(values.email, values.password, values.rememberMe, values.captcha)
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='loginForm'>
@@ -34,7 +35,14 @@ const LoginForm:React.FC<IProps> = ({loginUser}) => {
             errors.password.type === "required" &&
             <span className='loginForm__errors'>Password is required</span>}
             <div className='loginForm__checkBox'>Remember me: <input type="checkbox" name='rememberMe'/></div>
-
+            {captchaUrl && <img src={captchaUrl} alt=""/>}
+            {captchaUrl && <input type="text" name='captcha'
+                                  ref={register({
+                                      required: true})
+                                  }
+                                  className={errors.captcha && errors.captcha.type === 'required' ? 'loginForm__input loginForm__errors' : 'loginForm__input'}
+            />}
+            {errors.captcha && errors.captcha.type === 'required' && <span className='loginForm__errors'>Captcha is required</span>}
             <button type='submit' className='loginForm__btn'>sign in</button>
 
         </form>
