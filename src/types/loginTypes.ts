@@ -1,4 +1,8 @@
-import {GET_CAPTCHA_URL_SUCCESS, SET_AUTH_USER} from "../store/reducers/LoginReducer";
+import {
+    GET_CAPTCHA_URL_SUCCESS,
+    SET_ERROR_MESSAGE,
+    SET_AUTH_USER
+} from "../store/reducers/LoginReducer";
 
 interface IData {
     id: number | null,
@@ -16,6 +20,9 @@ export interface IGetCaptchaUrl {
     captchaUrl: string
 }
 
+export interface ISetErrorMessage {
+    type: typeof SET_ERROR_MESSAGE,
+    message: string
+}
 
-
-export type LoginCommonActionType = ISetAuthUserAction | IGetCaptchaUrl
+export type LoginCommonActionType = ISetAuthUserAction | IGetCaptchaUrl | ISetErrorMessage

@@ -4,10 +4,11 @@ import '../../styles/login.scss';
 
 interface IProps {
     loginUser: (email: string, password: string, rememberMe: boolean, captchaUrl: string) => void,
-    captchaUrl: string
+    captchaUrl: string,
+    errorMessage: string
 }
 
-const LoginForm: React.FC<IProps> = ({loginUser, captchaUrl}) => {
+const LoginForm: React.FC<IProps> = ({loginUser, captchaUrl, errorMessage}) => {
     const {handleSubmit, register, errors} = useForm();
     const onSubmit = (values: any) => {
         loginUser(values.email, values.password, values.rememberMe, values.captcha)
@@ -34,7 +35,9 @@ const LoginForm: React.FC<IProps> = ({loginUser, captchaUrl}) => {
             {errors.password &&
             errors.password.type === "required" &&
             <span className='loginForm__errors'>Password is required</span>}
+            {errorMessage && <span className='loginForm__errors'>{errorMessage}</span>}
             <div className='loginForm__checkBox'>Remember me: <input type="checkbox" name='rememberMe'/></div>
+
             {captchaUrl && <img src={captchaUrl} alt=""/>}
             {captchaUrl && <input type="text" name='captcha'
                                   ref={register({

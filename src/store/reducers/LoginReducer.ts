@@ -1,4 +1,4 @@
-import {LoginCommonActionType, ISetAuthUserAction} from "../../types/loginTypes";
+import {LoginCommonActionType, ISetAuthUserAction, ISetErrorMessage} from "../../types/loginTypes";
 import {Dispatch} from "redux";
 import {AppStateType} from "../store";
 import {loginAPI} from "../../api/loginAPI";
@@ -7,6 +7,7 @@ import {loginAPI} from "../../api/loginAPI";
 
 export const SET_AUTH_USER = 'SET_AUTH_USER';
 export const GET_CAPTCHA_URL_SUCCESS = 'GET_CAPTCHA_URL_SUCCESS';
+export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
 interface IInitialState {
     id: number | null,
@@ -15,7 +16,8 @@ interface IInitialState {
     isAuth: boolean,
     password: string,
     rememberMe: boolean,
-    captchaUrl: string
+    captchaUrl: string,
+    errorMessage: string
 }
 
 const initialState:IInitialState = {
@@ -25,7 +27,8 @@ const initialState:IInitialState = {
     isAuth: false,
     password: '',
     rememberMe: false,
-    captchaUrl: ''
+    captchaUrl: '',
+    errorMessage: ''
 }
 
 export let loginReducer = (state = initialState, action:LoginCommonActionType) => {
@@ -39,6 +42,11 @@ export let loginReducer = (state = initialState, action:LoginCommonActionType) =
             return {
                 ...state,
                 captchaUrl: action.captchaUrl
+            };
+        case SET_ERROR_MESSAGE:
+            return {
+                ...state,
+                errorMessage: action.message
             }
         default: return state
     }
@@ -52,6 +60,12 @@ export const setAuthUser = (id: number | null,login: string,email:string, isAuth
 const setCaptchaUrl = (captchaUrl: string) => {
     return {
         type: GET_CAPTCHA_URL_SUCCESS, captchaUrl
+    }
+};
+const setErrorMessage = (message: string): ISetErrorMessage => {
+    return {
+        type: SET_ERROR_MESSAGE,
+        message
     }
 }
 
@@ -93,7 +107,8 @@ export let login = (email:string, password:string, rememberMe:boolean, captchaUr
                 } else if (res.data.resultCode === 10) {
                     dispatch(getCaptchaUrl())
                 } else if (res.data.resultCode === 1) {
-
+                    let message = res.data.messages
+                    dispatch(setErrorMessage(message))
                 }
 
             })

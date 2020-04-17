@@ -9,12 +9,13 @@ let LoginContainer = () => {
     let dispatch = useDispatch();
     let isAuth = useSelector((state:AppStateType) => state.loginPage.isAuth)
     let captchaUrl = useSelector((state:AppStateType) => state.loginPage.captchaUrl)
+    let errorMessage = useSelector((state:AppStateType) => state.loginPage.errorMessage)
     const loginUser = useCallback((email:string, password:string, rememberMe:boolean, captchaUrl: string) => {
         dispatch(login(email, password, rememberMe, captchaUrl))
     }, [dispatch])
     return (
         <div>
-            <LoginPage captchaUrl={captchaUrl} loginUser={loginUser} isAuth={isAuth}/>
+            <LoginPage errorMessage={errorMessage} captchaUrl={captchaUrl} loginUser={loginUser} isAuth={isAuth}/>
         </div>
     )
 }
